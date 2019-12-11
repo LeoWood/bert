@@ -1,5 +1,78 @@
 # BERT
 
+**\*\*\*\*\* New May 31st, 2019: Whole Word Masking Models \*\*\*\*\***
+
+This is a release of several new models which were the result of an improvement
+the pre-processing code.
+
+In the original pre-processing code, we randomly select WordPiece tokens to
+mask. For example:
+
+`Input Text: the man jumped up , put his basket on phil ##am ##mon ' s head`
+`Original Masked Input: [MASK] man [MASK] up , put his [MASK] on phil
+[MASK] ##mon ' s head`
+
+The new technique is called Whole Word Masking. In this case, we always mask
+*all* of the the tokens corresponding to a word at once. The overall masking
+rate remains the same.
+
+`Whole Word Masked Input: the man [MASK] up , put his basket on [MASK] [MASK]
+[MASK] ' s head`
+
+The training is identical -- we still predict each masked WordPiece token
+independently. The improvement comes from the fact that the original prediction
+task was too 'easy' for words that had been split into multiple WordPieces.
+
+This can be enabled during data generation by passing the flag
+`--do_whole_word_mask=True` to `create_pretraining_data.py`.
+
+Pre-trained models with Whole Word Masking are linked below. The data and
+training were otherwise identical, and the models have identical structure and
+vocab to the original models. We only include BERT-Large models. When using
+these models, please make it clear in the paper that you are using the Whole
+Word Masking variant of BERT-Large.
+
+*   **[`BERT-Large, Uncased (Whole Word Masking)`](https://storage.googleapis.com/bert_models/2019_05_30/wwm_uncased_L-24_H-1024_A-16.zip)**:
+    24-layer, 1024-hidden, 16-heads, 340M parameters
+
+*   **[`BERT-Large, Cased (Whole Word Masking)`](https://storage.googleapis.com/bert_models/2019_05_30/wwm_cased_L-24_H-1024_A-16.zip)**:
+    24-layer, 1024-hidden, 16-heads, 340M parameters
+
+Model                                    | SQUAD 1.1 F1/EM | Multi NLI Accuracy
+---------------------------------------- | :-------------: | :----------------:
+BERT-Large, Uncased (Original)           | 91.0/84.3       | 86.05
+BERT-Large, Uncased (Whole Word Masking) | 92.8/86.7       | 87.07
+BERT-Large, Cased (Original)             | 91.5/84.8       | 86.09
+BERT-Large, Cased (Whole Word Masking)   | 92.9/86.7       | 86.46
+
+**\*\*\*\*\* New February 7th, 2019: TfHub Module \*\*\*\*\***
+
+BERT has been uploaded to [TensorFlow Hub](https://tfhub.dev). See
+`run_classifier_with_tfhub.py` for an example of how to use the TF Hub module,
+or run an example in the browser on
+[Colab](https://colab.sandbox.google.com/github/google-research/bert/blob/master/predicting_movie_reviews_with_bert_on_tf_hub.ipynb).
+
+**\*\*\*\*\* New November 23rd, 2018: Un-normalized multilingual model + Thai +
+Mongolian \*\*\*\*\***
+
+We uploaded a new multilingual model which does *not* perform any normalization
+on the input (no lower casing, accent stripping, or Unicode normalization), and
+additionally inclues Thai and Mongolian.
+
+**It is recommended to use this version for developing multilingual models,
+especially on languages with non-Latin alphabets.**
+
+This does not require any code changes, and can be downloaded here:
+
+*   **[`BERT-Base, Multilingual Cased`](https://storage.googleapis.com/bert_models/2018_11_23/multi_cased_L-12_H-768_A-12.zip)**:
+    104 languages, 12-layer, 768-hidden, 12-heads, 110M parameters
+
+**\*\*\*\*\* New November 15th, 2018: SOTA SQuAD 2.0 System \*\*\*\*\***
+
+We released code changes to reproduce our 83% F1 SQuAD 2.0 system, which is
+currently 1st place on the leaderboard by 3%. See the SQuAD 2.0 section of the
+README for details.
+
 **\*\*\*\*\* New November 5th, 2018: Third-party PyTorch and Chainer versions of
 BERT available \*\*\*\*\***
 
@@ -17,8 +90,9 @@ repository.
 
 We have made two new BERT models available:
 
-*   **[`BERT-Base, Multilingual`](https://storage.googleapis.com/bert_models/2018_11_03/multilingual_L-12_H-768_A-12.zip)**:
-    102 languages, 12-layer, 768-hidden, 12-heads, 110M parameters
+*   **[`BERT-Base, Multilingual`](https://storage.googleapis.com/bert_models/2018_11_03/multilingual_L-12_H-768_A-12.zip)
+    (Not recommended, use `Multilingual Cased` instead)**: 102 languages,
+    12-layer, 768-hidden, 12-heads, 110M parameters
 *   **[`BERT-Base, Chinese`](https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip)**:
     Chinese Simplified and Traditional, 12-layer, 768-hidden, 12-heads, 110M
     parameters
@@ -191,18 +265,29 @@ These models are all released under the same license as the source code (Apache
 For information about the Multilingual and Chinese model, see the
 [Multilingual README](https://github.com/google-research/bert/blob/master/multilingual.md).
 
+**When using a cased model, make sure to pass `--do_lower=False` to the training
+scripts. (Or pass `do_lower_case=False` directly to `FullTokenizer` if you're
+using your own script.)**
+
 The links to the models are here (right-click, 'Save link as...' on the name):
 
+*   **[`BERT-Large, Uncased (Whole Word Masking)`](https://storage.googleapis.com/bert_models/2019_05_30/wwm_uncased_L-24_H-1024_A-16.zip)**:
+    24-layer, 1024-hidden, 16-heads, 340M parameters
+*   **[`BERT-Large, Cased (Whole Word Masking)`](https://storage.googleapis.com/bert_models/2019_05_30/wwm_cased_L-24_H-1024_A-16.zip)**:
+    24-layer, 1024-hidden, 16-heads, 340M parameters
 *   **[`BERT-Base, Uncased`](https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip)**:
     12-layer, 768-hidden, 12-heads, 110M parameters
 *   **[`BERT-Large, Uncased`](https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-24_H-1024_A-16.zip)**:
     24-layer, 1024-hidden, 16-heads, 340M parameters
 *   **[`BERT-Base, Cased`](https://storage.googleapis.com/bert_models/2018_10_18/cased_L-12_H-768_A-12.zip)**:
     12-layer, 768-hidden, 12-heads , 110M parameters
-*   **`BERT-Large, Cased`**: 24-layer, 1024-hidden, 16-heads, 340M parameters
-    (Not available yet. Needs to be re-generated).
-*   **[`BERT-Base, Multilingual`](https://storage.googleapis.com/bert_models/2018_11_03/multilingual_L-12_H-768_A-12.zip)**:
-    102 languages, 12-layer, 768-hidden, 12-heads, 110M parameters
+*   **[`BERT-Large, Cased`](https://storage.googleapis.com/bert_models/2018_10_18/cased_L-24_H-1024_A-16.zip)**:
+    24-layer, 1024-hidden, 16-heads, 340M parameters
+*   **[`BERT-Base, Multilingual Cased (New, recommended)`](https://storage.googleapis.com/bert_models/2018_11_23/multi_cased_L-12_H-768_A-12.zip)**:
+    104 languages, 12-layer, 768-hidden, 12-heads, 110M parameters
+*   **[`BERT-Base, Multilingual Uncased (Orig, not recommended)`](https://storage.googleapis.com/bert_models/2018_11_03/multilingual_L-12_H-768_A-12.zip)
+    (Not recommended, use `Multilingual Cased` instead)**: 102 languages,
+    12-layer, 768-hidden, 12-heads, 110M parameters
 *   **[`BERT-Base, Chinese`](https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip)**:
     Chinese Simplified and Traditional, 12-layer, 768-hidden, 12-heads, 110M
     parameters
@@ -342,7 +427,7 @@ python run_classifier.py \
   --output_dir=/tmp/mrpc_output/
 ```
 
-### SQuAD
+### SQuAD 1.1
 
 The Stanford Question Answering Dataset (SQuAD) is a popular question answering
 benchmark dataset. BERT (at the time of the release) obtains state-of-the-art
@@ -434,6 +519,78 @@ If you fine-tune for one epoch on
 [TriviaQA](http://nlp.cs.washington.edu/triviaqa/) before this the results will
 be even better, but you will need to convert TriviaQA into the SQuAD json
 format.
+
+### SQuAD 2.0
+
+This model is also implemented and documented in `run_squad.py`.
+
+To run on SQuAD 2.0, you will first need to download the dataset. The necessary
+files can be found here:
+
+*   [train-v2.0.json](https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json)
+*   [dev-v2.0.json](https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v2.0.json)
+*   [evaluate-v2.0.py](https://worksheets.codalab.org/rest/bundles/0x6b567e1cf2e041ec80d7098f031c5c9e/contents/blob/)
+
+Download these to some directory `$SQUAD_DIR`.
+
+On Cloud TPU you can run with BERT-Large as follows:
+
+```shell
+python run_squad.py \
+  --vocab_file=$BERT_LARGE_DIR/vocab.txt \
+  --bert_config_file=$BERT_LARGE_DIR/bert_config.json \
+  --init_checkpoint=$BERT_LARGE_DIR/bert_model.ckpt \
+  --do_train=True \
+  --train_file=$SQUAD_DIR/train-v2.0.json \
+  --do_predict=True \
+  --predict_file=$SQUAD_DIR/dev-v2.0.json \
+  --train_batch_size=24 \
+  --learning_rate=3e-5 \
+  --num_train_epochs=2.0 \
+  --max_seq_length=384 \
+  --doc_stride=128 \
+  --output_dir=gs://some_bucket/squad_large/ \
+  --use_tpu=True \
+  --tpu_name=$TPU_NAME \
+  --version_2_with_negative=True
+```
+
+We assume you have copied everything from the output directory to a local
+directory called ./squad/. The initial dev set predictions will be at
+./squad/predictions.json and the differences between the score of no answer ("")
+and the best non-null answer for each question will be in the file
+./squad/null_odds.json
+
+Run this script to tune a threshold for predicting null versus non-null answers:
+
+python $SQUAD_DIR/evaluate-v2.0.py $SQUAD_DIR/dev-v2.0.json
+./squad/predictions.json --na-prob-file ./squad/null_odds.json
+
+Assume the script outputs "best_f1_thresh" THRESH. (Typical values are between
+-1.0 and -5.0). You can now re-run the model to generate predictions with the
+derived threshold or alternatively you can extract the appropriate answers from
+./squad/nbest_predictions.json.
+
+```shell
+python run_squad.py \
+  --vocab_file=$BERT_LARGE_DIR/vocab.txt \
+  --bert_config_file=$BERT_LARGE_DIR/bert_config.json \
+  --init_checkpoint=$BERT_LARGE_DIR/bert_model.ckpt \
+  --do_train=False \
+  --train_file=$SQUAD_DIR/train-v2.0.json \
+  --do_predict=True \
+  --predict_file=$SQUAD_DIR/dev-v2.0.json \
+  --train_batch_size=24 \
+  --learning_rate=3e-5 \
+  --num_train_epochs=2.0 \
+  --max_seq_length=384 \
+  --doc_stride=128 \
+  --output_dir=gs://some_bucket/squad_large/ \
+  --use_tpu=True \
+  --tpu_name=$TPU_NAME \
+  --version_2_with_negative=True \
+  --null_score_diff_threshold=$THRESH
+```
 
 ### Out-of-memory issues
 
@@ -731,6 +888,10 @@ accuracy numbers.
 
 ### Pre-training tips and caveats
 
+*   **If using your own vocabulary, make sure to change `vocab_size` in
+    `bert_config.json`. If you use a larger vocabulary without changing this,
+    you will likely get NaNs when training on GPU or TPU due to unchecked
+    out-of-bounds access.**
 *   If your task has a large domain-specific corpus available (e.g., "movie
     reviews" or "scientific papers"), it will likely be beneficial to run
     additional steps of pre-training on your corpus, starting from the BERT

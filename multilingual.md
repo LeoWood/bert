@@ -4,11 +4,19 @@ There are two multilingual models currently available. We do not plan to release
 more single-language models, but we may release `BERT-Large` versions of these
 two in the future:
 
-*   **[`BERT-Base, Multilingual`](https://storage.googleapis.com/bert_models/2018_11_03/multilingual_L-12_H-768_A-12.zip)**:
+*   **[`BERT-Base, Multilingual Cased (New, recommended)`](https://storage.googleapis.com/bert_models/2018_11_23/multi_cased_L-12_H-768_A-12.zip)**:
+    104 languages, 12-layer, 768-hidden, 12-heads, 110M parameters
+*   **[`BERT-Base, Multilingual Uncased (Orig, not recommended)`](https://storage.googleapis.com/bert_models/2018_11_03/multilingual_L-12_H-768_A-12.zip)**:
     102 languages, 12-layer, 768-hidden, 12-heads, 110M parameters
 *   **[`BERT-Base, Chinese`](https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip)**:
     Chinese Simplified and Traditional, 12-layer, 768-hidden, 12-heads, 110M
     parameters
+
+**The `Multilingual Cased (New)` model also fixes normalization issues in many
+languages, so it is recommended in languages with non-Latin alphabets (and is
+often better for most languages with Latin alphabets). When using this model,
+make sure to pass `--do_lower_case=false` to `run_pretraining.py` and other
+scripts.**
 
 See the [list of languages](#list-of-languages) that the Multilingual model
 supports. The Multilingual model does include Chinese (and English), but if your
@@ -26,13 +34,14 @@ XNLI, not Google NMT). For clarity, we only report on 6 languages below:
 
 <!-- mdformat off(no table) -->
 
-| System                          | English  | Chinese  | Spanish  | German   | Arabic   | Urdu     |
-| ------------------------------- | -------- | -------- | -------- | -------- | -------- | -------- |
-| XNLI Baseline - Translate Train | 73.7     | 67.0     | 68.8     | 66.5     | 65.8     | 56.6     |
-| XNLI Baseline - Translate Test  | 73.7     | 68.3     | 70.7     | 68.7     | 66.8     | 59.3     |
-| BERT -Translate Train           | **81.4** | **74.2** | **77.3** | **75.2** | **70.5** | 61.7     |
-| BERT - Translate Test           | 81.4     | 70.1     | 74.9     | 74.4     | 70.4     | **62.1** |
-| BERT - Zero Shot                | 81.4     | 63.8     | 74.3     | 70.5     | 62.1     | 58.3     |
+| System                            | English  | Chinese  | Spanish  | German   | Arabic   | Urdu     |
+| --------------------------------- | -------- | -------- | -------- | -------- | -------- | -------- |
+| XNLI Baseline - Translate Train   | 73.7     | 67.0     | 68.8     | 66.5     | 65.8     | 56.6     |
+| XNLI Baseline - Translate Test    | 73.7     | 68.3     | 70.7     | 68.7     | 66.8     | 59.3     |
+| BERT - Translate Train Cased      | **81.9** | **76.6** | **77.8** | **75.9** | **70.7** | 61.6     |
+| BERT - Translate Train Uncased    | 81.4     | 74.2     | 77.3     | 75.2     | 70.5     | 61.7     |
+| BERT - Translate Test Uncased     | 81.4     | 70.1     | 74.9     | 74.4     | 70.4     | **62.1** |
+| BERT - Zero Shot Uncased          | 81.4     | 63.8     | 74.3     | 70.5     | 62.1     | 58.3     |
 
 <!-- mdformat on -->
 
@@ -60,7 +69,7 @@ Note that the English result is worse than the 84.2 MultiNLI baseline because
 this training used Multilingual BERT rather than English-only BERT. This implies
 that for high-resource languages, the Multilingual model is somewhat worse than
 a single-language model. However, it is not feasible for us to train and
-maintain dozens of single-language model. Therefore, if your goal is to maximize
+maintain dozens of single-language models. Therefore, if your goal is to maximize
 performance with a language other than English or Chinese, you might find it
 beneficial to run pre-training for additional steps starting from our
 Multilingual model on data from your language of interest.
@@ -90,8 +99,8 @@ version of MultiNLI where the dev/test sets have been human-translated, and the
 training set has been machine-translated.
 
 To run the fine-tuning code, please download the
-[XNLI dev/test set](https://s3.amazonaws.com/xnli/XNLI-1.0.zip) and the
-[XNLI machine-translated training set](https://s3.amazonaws.com/xnli/XNLI-MT-1.0.zip)
+[XNLI dev/test set](https://www.nyu.edu/projects/bowman/xnli/XNLI-1.0.zip) and the
+[XNLI machine-translated training set](https://www.nyu.edu/projects/bowman/xnli/XNLI-MT-1.0.zip)
 and then unpack both .zip files into some directory `$XNLI_DIR`.
 
 To run fine-tuning on XNLI. The language is hard-coded into `run_classifier.py`
@@ -143,11 +152,9 @@ taken as the training data for each language
 However, the size of the Wikipedia for a given language varies greatly, and
 therefore low-resource languages may be "under-represented" in terms of the
 neural network model (under the assumption that languages are "competing" for
-limited model capacity to some extent).
-
-However, the size of a Wikipedia also correlates with the number of speakers of
-a language, and we also don't want to overfit the model by performing thousands
-of epochs over a tiny Wikipedia for a particular language.
+limited model capacity to some extent). At the same time, we also don't want
+to overfit the model by performing thousands of epochs over a tiny Wikipedia
+for a particular language.
 
 To balance these two factors, we performed exponentially smoothed weighting of
 the data during pre-training data creation (and WordPiece vocab creation). In
@@ -167,8 +174,8 @@ weighted the same way as the data, so low-resource languages are upweighted by
 some factor. We intentionally do *not* use any marker to denote the input
 language (so that zero-shot training can work).
 
-Because Chinese does not have whitespace characters, we add spaces around every
-character in the
+Because Chinese (and Japanese Kanji and Korean Hanja) does not have whitespace
+characters, we add spaces around every character in the
 [CJK Unicode range](https://en.wikipedia.org/wiki/CJK_Unified_Ideographs_\(Unicode_block\))
 before applying WordPiece. This means that Chinese is effectively
 character-tokenized. Note that the CJK Unicode block only includes
@@ -288,12 +295,9 @@ chosen because they are the top 100 languages with the largest Wikipedias:
 *   Volapük
 *   Waray-Waray
 *   Welsh
-*   West
+*   West Frisian
 *   Western Punjabi
 *   Yoruba
 
-The only language which we had to unfortunately exclude was Thai, since it is
-the only language (other than Chinese) that does not use whitespace to delimit
-words, and it has too many characters-per-word to use character-based
-tokenization. Our WordPiece algorithm is quadratic with respect to the size of
-the input token so very long character strings do not work with it.
+The **Multilingual Cased (New)** release contains additionally **Thai** and
+**Mongolian**, which were not included in the original release.
