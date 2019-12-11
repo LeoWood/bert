@@ -115,12 +115,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# data
-data/
 
-# output
-output/
-
-# models
-models/
 
