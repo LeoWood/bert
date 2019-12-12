@@ -17,11 +17,11 @@ def stat(cla_dict,isuni,output_file,db_server):
         sql = "SELECT count(*) AS 'count' FROM article_info where classification like '{cla_str}%' and isUniCla={isuni}".format(
             cla_str=cla_str,isuni=isuni)
         df = db_server.read_sql(sql)
-        cla_stats[label + '' + text] = df.iloc[0]['count']
+        cla_stats[label + ' ' + text] = df.iloc[0]['count']
         i += 1
         print(i, ' Done')
 
-    cla_stats = sorted(cla_stats.items(), key=lambda x: x[1], reverse=True)
+    # cla_stats = sorted(cla_stats.items(), key=lambda x: x[1], reverse=True)
     print(cla_stats)
     with open(output_file, 'w', encoding='utf-8') as f:
         for key, value in cla_stats:
