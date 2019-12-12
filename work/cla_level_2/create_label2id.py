@@ -110,15 +110,26 @@ if __name__ == '__main__':
 
     ## 全部二级类
 
-    cla_2_label2text = {}
+    # cla_2_label2text = {}
+    #
+    # with open('cla_level_2.txt','r',encoding='utf-8') as f:
+    #     for line in f.readlines():
+    #         line = line. strip()
+    #         if line:
+    #             cla_2_label2text[line.split()[0]] = line.split()[1]
+    #
+    # with open('cla_2_label2text.json', 'w', encoding='utf-8') as f:
+    #     json.dump(cla_2_label2text,f)
 
-    with open('cla_level_2.txt','r',encoding='utf-8') as f:
+    cla_cscd_label2text = {}
+
+    with open('cla_cscd.txt', 'r', encoding='utf-8') as f:
         for line in f.readlines():
-            line = line. strip()
+            line = line.strip()
             if line:
-                cla_2_label2text[line.split()[0]] = line.split()[1]
+                cla_cscd_label2text[line.split()[0]] = line.split()[1]
 
-    with open('cla_2_label2text.json', 'w', encoding='utf-8') as f:
-        json.dump(cla_2_label2text,f)
+    with open('cla_cscd_label2text.json', 'w', encoding='utf-8') as f:
+        json.dump(cla_cscd_label2text, f)
 
 

@@ -41,11 +41,11 @@ if __name__ == '__main__':
     db_server = pySql(ip=db_info['ip'], user=db_info['user'], pwd = db_info['pwd'], db = db_info['db'])
 
     ## 获取分类label2text映射表
-    with open('cla_2_label2text.json','r',encoding='utf-8') as f:
+    with open('cla_cscd_label2text.json','r',encoding='utf-8') as f:
         cla_dict = json.load(f)
 
 
-    stat(cla_dict,1,'cla_level_2_stat_uni.txt',db_server)
+    stat(cla_dict,1,'cla_cscd_stat_uni.txt',db_server)
 
 
     db_server.close()
