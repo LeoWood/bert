@@ -6,16 +6,20 @@
 
 from pySql import pySql
 import json
+import tqdm
 
 
 def stat(cla_dict,isuni,output_file,db_server):
     cla_stats = {}
-    for cla in cla_dict.values():
-        cla_str = cla.split(' ')[0]
-        sql = "SELECT count(*) AS 'count' FROM article_info where classification like '%{cla_str}%' and isUniCla={isuni}".format(
+    i = 0
+    for label,text in cla_dict.items():
+        cla_str = label
+        sql = "SELECT count(*) AS 'count' FROM article_info where classification like '{cla_str}%' and isUniCla={isuni}".format(
             cla_str=cla_str,isuni=isuni)
         df = db_server.read_sql(sql)
-        cla_stats[cla] = df.iloc[0]['count']
+        cla_stats[label + '' + text] = df.iloc[0]['count']
+        i += 1
+        print(i, ' Done')
 
     cla_stats = sorted(cla_stats.items(), key=lambda x: x[1], reverse=True)
     print(cla_stats)
@@ -44,5 +48,5 @@ if __name__ == '__main__':
     stat(cla_dict,1,'cla_level_2_stat_uni.txt',db_server)
 
 
-    # ps.close()
+    db_server.close()
 
