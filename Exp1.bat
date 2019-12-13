@@ -8,9 +8,9 @@ python run_classifier.py^
  --max_seq_length 400^
  --do_train True^
  --do_eval False^
- --train_batch_size 10^
+ --train_batch_size 8^
  --learning_rate 2e-5^
  --num_train_epochs 2.0^
- --gpu 1^
+ --gpu 0^
  --cla_nums 87
 

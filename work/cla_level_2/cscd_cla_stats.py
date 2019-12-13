@@ -24,7 +24,7 @@ def stat(cla_dict,isuni,output_file,db_server):
     # cla_stats = sorted(cla_stats.items(), key=lambda x: x[1], reverse=True)
     print(cla_stats)
     with open(output_file, 'w', encoding='utf-8') as f:
-        for key, value in cla_stats:
+        for key, value in cla_stats.items():
             f.write(key + '\t' + str(value) + '\n')
 
 def is_chinese(char):

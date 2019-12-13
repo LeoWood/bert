@@ -102,6 +102,11 @@ def is_chinese(char):
 
 
 if __name__ == '__main__':
+    df_train = pd.read_csv('train_temp.tsv', sep='\t', names=['label', 'Sentence'])
+
+    print(len(df_train))
+    exit()
+
     ## 读取数据库信息
     with open('db_info.json', 'r', encoding='utf-8') as f:
         db_info = json.load(f)
