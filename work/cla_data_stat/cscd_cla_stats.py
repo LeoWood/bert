@@ -14,17 +14,17 @@ def stat(cla_dict,isuni,output_file,db_server):
     i = 0
     for label,text in cla_dict.items():
         cla_str = label
-        sql = "SELECT count(*) AS 'count' FROM article_info where classification like '{cla_str}%' and isUniCla={isuni}".format(
+        sql = "SELECT count(*) AS 'count' FROM article_info where classification like '{cla_str}%' and isUniCla={isuni} and language='chi'".format(
             cla_str=cla_str,isuni=isuni)
         df = db_server.read_sql(sql)
         cla_stats[label + ' ' + text] = df.iloc[0]['count']
         i += 1
         print(i, ' Done')
 
-    # cla_stats = sorted(cla_stats.items(), key=lambda x: x[1], reverse=True)
+    cla_stats = sorted(cla_stats.items(), key=lambda x: x[1], reverse=True)
     print(cla_stats)
     with open(output_file, 'w', encoding='utf-8') as f:
-        for key, value in cla_stats.items():
+        for key, value in cla_stats:
             f.write(key + '\t' + str(value) + '\n')
 
 def is_chinese(char):
@@ -41,11 +41,11 @@ if __name__ == '__main__':
     db_server = pySql(ip=db_info['ip'], user=db_info['user'], pwd = db_info['pwd'], db = db_info['db'])
 
     ## 获取分类label2text映射表
-    with open('cla_cscd_label2text.json','r',encoding='utf-8') as f:
+    with open('cla_cscd_old_all/cla_cscd_label2text.json','r',encoding='utf-8') as f:
         cla_dict = json.load(f)
 
 
-    stat(cla_dict,1,'cla_cscd_stat_uni.txt',db_server)
+    stat(cla_dict,1,'cla_cscd_old_all/cla_cscd_stat_uni_sort.txt',db_server)
 
 
     db_server.close()

@@ -112,7 +112,7 @@ if __name__ == '__main__':
 
     # cla_2_label2text = {}
     #
-    # with open('cla_level_2.txt','r',encoding='utf-8') as f:
+    # with open('cla_data_stat.txt','r',encoding='utf-8') as f:
     #     for line in f.readlines():
     #         line = line. strip()
     #         if line:

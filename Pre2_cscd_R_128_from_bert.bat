@@ -3,7 +3,7 @@ python run_pretraining.py^
  --input_file data/cscibert_pre_training/pre_training_R_cscd_128.tfrecord^
  --bert_config_file models/chinese_L-12_H-768_A-12/bert_config.json^
  --init_checkpoint models/chinese_L-12_H-768_A-12/bert_model.ckpt^
- --output_dir outputs/Pre1_cscd_R_128_from_bert^
+ --output_dir outputs/Pre2_cscd_R_128_from_bert^
  --max_seq_length 128^
  --do_train True^
  --train_batch_size 32^
