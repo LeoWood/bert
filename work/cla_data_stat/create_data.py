@@ -124,44 +124,41 @@ def create_data_level(cla_dict,db_server):
 
     i = 0
     for label, text in cla_dict.items():
-        cla_str = label
-        sql = "SELECT id, title,abstract FROM article_info where classification like '{cla_str}%' and isUniCla=1 and language='chi'".format(
-            cla_str=cla_str)
+        sql = "SELECT id,title,abstract FROM article_info where classification like '{cla_str}%' and isUniCla=1 and language='chi' and id not in (select id from cla_test_100) order by id".format(
+            cla_str=label)
         df = db_server.read_sql(sql)
-        nums = len(df)
 
+        num = len(df)
 
+        if num >= 10000:
+            df = df[:10000]
+        elif num >= 5000:
+            df = df[:5000]
+        elif num >= 2000:
+            df = df[:2000]
+
+        df.to_csv('train_level/' + label + text + '.csv', encoding='utf_8_sig')
         abstracts = []
         for j in range(len(df)):
-            flag = 0
-            title = str(df.iloc[j]['title'])
-            for s in title:
-                if not is_chinese(s):
-                    flag += 1
-            if flag == len(title):
-            ## 判断是否为中文摘要
-                print(title)
-                # exit()
-                continue
-            else:
-                abstracts.append(df.iloc[j]['abstract'].strip().replace('\r', '').replace('\n', ''))
-        with open('train_temp.tsv', 'a', encoding='utf-8') as f:
+            abstracts.append(df.iloc[j]['abstract'].strip().replace('\r', '').replace('\n', ''))
+        with open('train_level/train_temp.tsv', 'a', encoding='utf-8') as f:
             for abst in abstracts:
                 f.write(str(i) + '\t' + abst + '\n')
         cscd_id_label[i] = label + ' ' + text
         cscd_label2id[label + ' ' + text] = i
         i += 1
+        print(label, ' Done')
 
-    with open('cscd_id_label.json', 'w', encoding='utf-8') as f:
+    with open('train_level/cscd_id_label.json', 'w', encoding='utf-8') as f:
         json.dump(cscd_id_label, f)
-    with open('cscd_label2id.json', 'w', encoding='utf-8') as f:
+    with open('train_level/cscd_label2id.json', 'w', encoding='utf-8') as f:
         json.dump(cscd_label2id, f)
 
-    df_train = pd.read_csv('train_temp.tsv', sep='\t', names=['label', 'Sentence'])
+    df_train = pd.read_csv('train_level/train_temp.tsv', sep='\t', names=['label', 'Sentence'])
 
     print(len(df_train))
     df_train = df_train.sample(frac=1).reset_index(drop=True)
-    df_train.to_csv('train.tsv', sep='\t', header=False, index=False)
+    df_train.to_csv('train_level/train.tsv', sep='\t', header=False, index=False)
 
 
 def is_chinese(char):
@@ -202,6 +199,6 @@ if __name__ == '__main__':
 
     # insert_into_test(db_server,cla_dict)
 
-    create_data_2000(cla_dict,db_server)
+    create_data_level(cla_dict,db_server)
 
     db_server.close()
