@@ -6,8 +6,10 @@ python run_pretraining.py^
  --output_dir outputs/Pre2_cscd_R_128_from_bert^
  --max_seq_length 128^
  --do_train True^
+ --do_eval True^
  --train_batch_size 32^
  --learning_rate 2e-5^
- --num_train_steps 200000^
+ --num_train_steps 250000^
+ --save_checkpoints_steps 10000^
  --gpu 1^
 
