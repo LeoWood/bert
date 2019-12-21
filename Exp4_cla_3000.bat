@@ -3,7 +3,7 @@ python run_classifier.py^
  --bert_config_file models/chinese_L-12_H-768_A-12/bert_config.json^
  --task_name cla^
  --vocab_file models/chinese_L-12_H-768_A-12/vocab.txt^
- --output_dir outputs/Exp2_cla_cscd_3000^
+ --output_dir outputs/Exp4_cla_cscd_3000^
  --init_checkpoint models/chinese_L-12_H-768_A-12/bert_model.ckpt^
  --max_seq_length 400^
  --do_train True^
