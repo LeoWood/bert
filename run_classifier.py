@@ -27,6 +27,7 @@ import tokenization
 import tensorflow as tf
 from sklearn import metrics
 import json
+import pandas as pd
 
 flags = tf.flags
 
@@ -412,9 +413,6 @@ class ClaProcessor(DataProcessor):
         """Creates examples for the training and dev sets."""
         examples = []
         for (i, line) in enumerate(lines):
-            # Only the test set has a header
-            if set_type == "test" and i == 0:
-                continue
             guid = "%s-%s" % (set_type, i)
             if set_type == "test":
                 text_a = tokenization.convert_to_unicode(line[1])
@@ -832,6 +830,23 @@ def convert_examples_to_features(examples, label_list, max_seq_length,
         features.append(feature)
     return features
 
+def classification_report_csv(report):
+    report_data = []
+    lines = report.split('\n')
+    for line in lines[2:-3]:
+        row = {}
+        row_data = line.split('      ')
+        row_data = list(filter(None, row_data))
+        # row_data = ' '.join(line.split())
+        # row_data = row_data.split(' ')
+        row['class'] = row_data[0]
+        row['precision'] = float(row_data[1])
+        row['recall'] = float(row_data[2])
+        row['f1_score'] = float(row_data[3])
+        row['support'] = float(row_data[4])
+        report_data.append(row)
+    df = pd.DataFrame.from_dict(report_data)
+    return df
 
 def main(_):
     tf.logging.set_verbosity(tf.logging.INFO)
@@ -920,8 +935,11 @@ def main(_):
 
     if FLAGS.do_train:
         train_file = os.path.join(FLAGS.output_dir, "train.tf_record")
-        file_based_convert_examples_to_features(
-            train_examples, label_list, FLAGS.max_seq_length, tokenizer, train_file)
+        train_file_exists = os.path.exists(train_file)
+        print("###train_file_exists:", train_file_exists, " ;train_file:", train_file)
+        if not train_file_exists:  # if tf_record file not exist, convert from raw text file. # TODO
+            file_based_convert_examples_to_features(
+                train_examples, label_list, FLAGS.max_seq_length, tokenizer, train_file)
         tf.logging.info("***** Running training *****")
         tf.logging.info("  Num examples = %d", len(train_examples))
         tf.logging.info("  Batch size = %d", FLAGS.train_batch_size)
@@ -970,14 +988,41 @@ def main(_):
             is_training=False,
             drop_remainder=eval_drop_remainder)
 
-        result = estimator.evaluate(input_fn=eval_input_fn, steps=eval_steps)
+#######################################################################################################################
+        # evaluate all checkpoints; you can use the checkpoint with the best dev accuarcy
+        steps_and_files = []
+        filenames = tf.gfile.ListDirectory(FLAGS.output_dir)
+        for filename in filenames:
+            if filename.endswith(".index"):
+                ckpt_name = filename[:-6]
+                cur_filename = os.path.join(FLAGS.output_dir, ckpt_name)
+                global_step = int(cur_filename.split("-")[-1])
+                tf.logging.info("Add {} to eval list.".format(cur_filename))
+                steps_and_files.append([global_step, cur_filename])
+        steps_and_files = sorted(steps_and_files, key=lambda x: x[0])
 
         output_eval_file = os.path.join(FLAGS.output_dir, "eval_results.txt")
+        print("output_eval_file:", output_eval_file)
+        tf.logging.info("output_eval_file:" + output_eval_file)
         with tf.gfile.GFile(output_eval_file, "w") as writer:
-            tf.logging.info("***** Eval results *****")
-            for key in sorted(result.keys()):
-                tf.logging.info("  %s = %s", key, str(result[key]))
-                writer.write("%s = %s\n" % (key, str(result[key])))
+            for global_step, filename in sorted(steps_and_files, key=lambda x: x[0]):
+                result = estimator.evaluate(input_fn=eval_input_fn, steps=eval_steps, checkpoint_path=filename)
+
+                tf.logging.info("***** Eval results %s *****" % (filename))
+                writer.write("***** Eval results %s *****\n" % (filename))
+                for key in sorted(result.keys()):
+                    tf.logging.info("  %s = %s", key, str(result[key]))
+                    writer.write("%s = %s\n" % (key, str(result[key])))
+        #######################################################################################################################
+
+        # result = estimator.evaluate(input_fn=eval_input_fn, steps=eval_steps)
+        #
+        # output_eval_file = os.path.join(FLAGS.output_dir, "eval_results.txt")
+        # with tf.gfile.GFile(output_eval_file, "w") as writer:
+        #     tf.logging.info("***** Eval results *****")
+        #     for key in sorted(result.keys()):
+        #         tf.logging.info("  %s = %s", key, str(result[key]))
+        #         writer.write("%s = %s\n" % (key, str(result[key])))
 
     if FLAGS.do_predict:
         true_labels = []
@@ -1053,6 +1098,9 @@ def main(_):
                                                     y_pred=predictions, labels=cla_labels)
         print(report)
         print(confution_matrix)
+        # df = classification_report_csv(report)
+        # df.to_csv(os.path.join(FLAGS.output_dir, "eval_report.csv"),index=False)
+
 
 
 if __name__ == "__main__":
