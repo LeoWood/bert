@@ -9,7 +9,7 @@ python run_pretraining.py\
  --do_eval=True\
  --train_batch_size=32\
  --learning_rate=2e-5\
- --num_train_steps=350000\
+ --num_train_steps=400000\
  --save_checkpoints_steps=50000\
  --gpu=0^
 
