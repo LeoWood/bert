@@ -7,6 +7,8 @@ python run_classifier.py^
  --init_checkpoint models/chinese_L-12_H-768_A-12/bert_model.ckpt^
  --max_seq_length 400^
  --do_train True^
+ --do_eval True^
+ --do_predict True^
  --train_batch_size 8^
  --learning_rate 2e-5^
  --num_train_epochs 2.0^

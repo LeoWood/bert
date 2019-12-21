@@ -8,6 +8,7 @@ python run_classifier.py^
  --init_checkpoint outputs/Pre2_cscd_R_128_from_bert/model.ckpt-250000^
  --max_seq_length 400^
  --do_train True^
+ --do_predict True^
  --train_batch_size 8^
  --learning_rate 2e-5^
  --num_train_epochs 2.0^
