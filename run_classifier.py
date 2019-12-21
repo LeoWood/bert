@@ -1092,12 +1092,14 @@ def main(_):
         report = metrics.classification_report(y_true=true_labels,
                                                y_pred=predictions,
                                                labels=cla_labels,
-                                               target_names=[ld2label[str(i)] for i in cla_labels], digits=4)
+                                               target_names=[ld2label[str(i)].split()[0] for i in cla_labels], digits=4)
 
         confution_matrix = metrics.confusion_matrix(y_true=true_labels,
                                                     y_pred=predictions, labels=cla_labels)
         print(report)
         print(confution_matrix)
+        with open(os.path.join(FLAGS.output_dir, "eval_report.txt"), 'w', encoding='utf-8') as f:
+            f.write(report)
         # df = classification_report_csv(report)
         # df.to_csv(os.path.join(FLAGS.output_dir, "eval_report.csv"),index=False)
 
