@@ -9,12 +9,14 @@ import json
 import tqdm
 
 
-def stat(cla_dict,isuni,output_file,db_server):
+def stat(label2text,isuni,output_file,db_server):
+    with open(label2text,'r',encoding='utf-8') as f:
+        cla_dict = json.load(f)
     cla_stats = {}
     i = 0
     for label,text in cla_dict.items():
         cla_str = label
-        sql = "SELECT count(*) AS 'count' FROM article_info where classification like '{cla_str}%' and isUniCla={isuni} and language='chi' and id not in (select id from cla_test_100)".format(
+        sql = "SELECT count(*) AS 'count' FROM article_info where classification like '{cla_str}%' and isUniCla={isuni} and language='chi'".format(
             cla_str=cla_str,isuni=isuni)
         df = db_server.read_sql(sql)
         cla_stats[label + ' ' + text] = df.iloc[0]['count']
@@ -40,12 +42,8 @@ if __name__ == '__main__':
     db_info = db_info['cscd']
     db_server = pySql(ip=db_info['ip'], user=db_info['user'], pwd = db_info['pwd'], db = db_info['db'])
 
-    ## 获取分类label2text映射表
-    with open('cla_cscd_filter_1/cla_cscd_label2text_filter.json','r',encoding='utf-8') as f:
-        cla_dict = json.load(f)
 
-
-    stat(cla_dict,1,'cla_cscd_filter_1/cla_cscd_stat_uni_sort.txt',db_server)
+    stat('physics_cla/cla_cscd_phy_label2text.json',1,'physics_cla/stats_cscd_phy.txt',db_server)
 
 
     db_server.close()
