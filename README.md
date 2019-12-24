@@ -100,13 +100,17 @@ python run_pretraining.py^
     
   
     ``` 
-    得到 work/cla_data_stat/cla_cscd_filter.txt ，共计84个类
+    得到 work/cla_data_stat/cla_cscd_filter_1/cla_cscd_filter.txt ，共计81个类
     
     创建一个测试集，每个类取前100
     ```
      sql = "insert into cla_test_100 SELECT top 100 * FROM article_info where classification like '{cla_str}%' and isUniCla=1 and language='chi'".format(
             cla_str=label)
     ```
+    人工筛选，每个类得到50条测试数据，共计4050条测试集。
+    
+    
+    
     
     
     
