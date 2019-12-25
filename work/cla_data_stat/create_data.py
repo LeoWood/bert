@@ -8,6 +8,7 @@ from pySql import pySql
 import json
 import tqdm
 import pandas as pd
+import os
 
 
 def create_data_old(cla_dict,isuni,db_server):
@@ -185,6 +186,52 @@ def create_data_4000(cla_dict,db_server):
     df_train = df_train.sample(frac=1).reset_index(drop=True)
     df_train.to_csv('train_4000/train.tsv', sep='\t', header=False, index=False)
 
+def create_data_phy(cla_dict,db_server,path):
+
+    cscd_label2id = {}
+    cscd_id_label = {}
+
+    i = 0
+    for label,text in cla_dict.items():
+        sql = "SELECT id,title,abstract,en_abstract FROM article_info where classification like '{cla_str}%' and isUniCla=1 and language='chi' order by id".format(cla_str=label)
+        df = db_server.read_sql(sql)
+        df.to_csv(os.path.join(path, label + ' ' + text + '.csv'), encoding='utf_8_sig')
+
+        df_train = df[:int(len(df)*0.8)]
+        df_test = df[int(len(df)*0.8):]
+
+        abstracts = []
+        for j in range(len(df_train)):
+            abstracts.append(df_train.iloc[j]['abstract'].strip().replace('\r','').replace('\n',''))
+        with open(os.path.join(path, 'train_temp.tsv'),'a',encoding='utf-8') as f:
+            for abst in abstracts:
+                f.write(str(i) + '\t' + abst + '\n')
+
+        abstracts = []
+        for j in range(len(df_test)):
+            abstracts.append(df_test.iloc[j]['abstract'].strip().replace('\r', '').replace('\n', ''))
+        with open(os.path.join(path, 'test.tsv'), 'a', encoding='utf-8') as f:
+            for abst in abstracts:
+                f.write(str(i) + '\t' + abst + '\n')
+
+        cscd_id_label[i] = label + ' ' + text
+        cscd_label2id[label + ' ' + text] = i
+        i += 1
+        print(len(df))
+        print(label, ' Done')
+
+    with open(os.path.join(path, 'id2label.json'),'w',encoding='utf-8') as f:
+        json.dump(cscd_id_label,f)
+    with open(os.path.join(path, 'label2id.json'), 'w', encoding='utf-8') as f:
+        json.dump(cscd_label2id, f)
+
+    df_train = pd.read_csv(os.path.join(path, 'train_temp.tsv'), sep='\t', names=['label', 'Sentence'])
+
+    print(len(df_train))
+    df_train = df_train.sample(frac=1).reset_index(drop=True)
+    df_train.to_csv(os.path.join(path, 'train.tsv'), sep='\t', header=False, index=False)
+
+
 def create_data_level(cla_dict,db_server):
     cscd_label2id = {}
     cscd_id_label = {}
@@ -249,10 +296,10 @@ def insert_into_test(db_server,cla_dict):
 
 
 if __name__ == '__main__':
-    df_train = pd.read_csv('train_4000/train.tsv', sep='\t', names=['label', 'Sentence'])
-
-    print(len(df_train))
-    exit()
+    # df_train = pd.read_csv('train_4000/train.tsv', sep='\t', names=['label', 'Sentence'])
+    #
+    # print(len(df_train))
+    # exit()
 
     ## 读取数据库信息
     with open('db_info.json', 'r', encoding='utf-8') as f:
@@ -260,12 +307,12 @@ if __name__ == '__main__':
     db_info = db_info['cscd']
     db_server = pySql(ip=db_info['ip'], user=db_info['user'], pwd=db_info['pwd'], db=db_info['db'])
 
-    with open('cla_cscd_filter_1/cla_cscd_label2text_filter.json','r',encoding='utf-8') as f:
+    with open('physics_cla/cla_cscd_phy_2_label2text_filter.json','r',encoding='utf-8') as f:
         cla_dict = json.load(f)
     # create_data(cla_dict, 1, db_server)
 
     # insert_into_test(db_server,cla_dict)
 
-    create_data_4000(cla_dict,db_server)
+    create_data_phy(cla_dict,db_server,'train_phy')
 
     db_server.close()

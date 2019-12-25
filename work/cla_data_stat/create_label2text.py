@@ -81,14 +81,27 @@ if __name__ == '__main__':
     #         cla_2_r_id2label[key] = value.split()[0]
     #     json.dump(cla_2_r_id2label, f)
     #
-    # for key, value in cla_3_r.items():
-    #     i = 0
-    #     for s in value:
-    #         if is_chinese(s):
-    #             cla_3_r[key] = value[:i] + ' ' + value[i:]
-    #             break
-    #         i += 1
-    # # print(cla_3_r)
+
+    label2text = {}
+    for key, value in cla_3_r.items():
+        i = 0
+        for s in value:
+            if is_chinese(s):
+                cla_3_r[key] = value[:i] + ' ' + value[i:]
+                label2text[value[:i] ] = value[i:]
+                break
+            i += 1
+
+    print(cla_3_r)
+    print(label2text)
+    with open('med_cla_eng/id2label.json','w',encoding='utf-8') as f:
+        json.dump(cla_3_r,f)
+    with open('med_cla_eng/label2text.json','w',encoding='utf-8') as f:
+        json.dump(label2text,f)
+    exit()
+
+
+
     #
     # cla_3_r_label2text = {}
     # with open('cla_3_r_label2text.json', 'w', encoding='utf-8') as f:
@@ -134,13 +147,13 @@ if __name__ == '__main__':
 
     cla_cscd_label2text = {}
 
-    with open('physics_cla/cla_cscd_phy.txt', 'r', encoding='utf-8') as f:
+    with open('physics_cla/cla_cscd_phy_2.txt', 'r', encoding='utf-8') as f:
         for line in f.readlines():
             line = line.strip()
             if line:
                 cla_cscd_label2text[line.split()[0]] = line.split()[1]
 
-    with open('physics_cla/cla_cscd_phy_label2text.json', 'w', encoding='utf-8') as f:
+    with open('physics_cla/cla_cscd_phy_2_label2text.json', 'w', encoding='utf-8') as f:
         json.dump(cla_cscd_label2text, f)
 
 
