@@ -9,7 +9,7 @@ with tf.device('/cpu:0'):
     net_cpu = tf.layers.conv2d(random_image_cpu, 32, 7)
     net_cpu = tf.reduce_sum(net_cpu)
 
-with tf.device('/gpu:1'):
+with tf.device('/gpu:0'):
     random_image_gpu = tf.random_normal((100, 100, 100, 3))
     net_gpu = tf.layers.conv2d(random_image_gpu, 32, 7)
     net_gpu = tf.reduce_sum(net_gpu)
