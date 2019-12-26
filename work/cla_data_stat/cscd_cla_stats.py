@@ -43,6 +43,7 @@ if __name__ == '__main__':
     db_server = pySql(ip=db_info['ip'], user=db_info['user'], pwd = db_info['pwd'], db = db_info['db'])
 
 
+    # stat('med_cla_eng/label2text.json',1,'med_cla_eng/stats_cscd_med_eng.txt',db_server)
     stat('med_cla_eng/label2text.json',1,'med_cla_eng/stats_cscd_med_eng.txt',db_server)
 
 
