@@ -44,6 +44,18 @@ if __name__ == '__main__':
                102: 'R85航空航天医学', 103: 'R91药物基础科学', 104: 'R917药物分析', 105: 'R92药典、药方集（处方集）、药物鉴定', 106: 'R93生药学（天然药物学）',
                107: 'R94药剂学', 108: 'R95药事组织', 109: 'R96药理学', 110: 'R97药品', 111: 'R99毒物学（毒理学）'}
 
+    cla_2_r = {0: 'R1 预防医学、卫生学', 1: 'R2 中国医学', 2: 'R3 基础医学', 3: 'R4 临床医学', 4: 'R5 内科学', 5: 'R6 外科学', 6: 'R71 妇产科学',
+               7: 'R72 儿科学', 8: 'R73 肿瘤学', 9: 'R74 神经病学与精神病学', 10: 'R75 皮肤病学与性病学', 11: 'R76 耳鼻咽喉科学', 12: 'R77 眼科学',
+               13: 'R78 口腔科学', 14: 'R8 特种医学', 15: 'R9 药学'}
+
+    new_dict = {}
+    for key,value in cla_2_r.items():
+        new_dict[str(key)] = value
+
+    with open('id2label.json','w',encoding='utf-8') as f:
+        json.dump(new_dict,f)
+    exit()
+
     # cla_1_label2text = {}
     # with open('cla_1_label2text.json', 'w', encoding='utf-8') as f:
     #     for key, value in cla_1.items():

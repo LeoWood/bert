@@ -395,10 +395,10 @@ def insert_into_test(db_server,cla_dict):
 
 
 if __name__ == '__main__':
-    # df_train = pd.read_csv('train_4000/train.tsv', sep='\t', names=['label', 'Sentence'])
-    #
-    # print(len(df_train))
-    # exit()
+    df_train = pd.read_csv('train_phy_eng/train.tsv', sep='\t', names=['label', 'Sentence'])
+
+    print(len(df_train))
+    exit()
 
     ## 读取数据库信息
     with open('db_info.json', 'r', encoding='utf-8') as f:
