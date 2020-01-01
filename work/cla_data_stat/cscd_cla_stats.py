@@ -25,6 +25,7 @@ def stat(label2text,isuni,output_file,db_server):
 
     cla_stats = sorted(cla_stats.items(), key=lambda x: x[1], reverse=True)
     print(cla_stats)
+
     with open(output_file, 'w', encoding='utf-8') as f:
         for key, value in cla_stats:
             f.write(key + '\t' + str(value) + '\n')
@@ -44,7 +45,7 @@ if __name__ == '__main__':
 
 
     # stat('med_cla_eng/label2text.json',1,'med_cla_eng/stats_cscd_med_eng.txt',db_server)
-    stat(r'physics_cla\cla_cscd_phy_2_label2text_filter.json',1,'med_cla_eng/stats_cscd_med_eng.txt',db_server)
+    stat(r'cla_123_r/cla_1_label2text.json',1,'cla_123_r/stats_cscd_1.txt',db_server)
 
 
     db_server.close()
