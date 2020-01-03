@@ -18,6 +18,8 @@ def stat(label2text,isuni,output_file,db_server):
         cla_str = label
         sql = "SELECT count(*) AS 'count' FROM article_info where classification like '{cla_str}%' and isUniCla={isuni} and language='chi'".format(
             cla_str=cla_str,isuni=isuni)
+        sql = "SELECT count(*) AS 'count' FROM article_info where classification like '{cla_str}%' and language='chi'".format(
+            cla_str=cla_str)
         df = db_server.read_sql(sql)
         cla_stats[label + ' ' + text] = df.iloc[0]['count']
         i += 1
@@ -25,10 +27,15 @@ def stat(label2text,isuni,output_file,db_server):
 
     cla_stats = sorted(cla_stats.items(), key=lambda x: x[1], reverse=True)
     print(cla_stats)
+    count = 0
 
     with open(output_file, 'w', encoding='utf-8') as f:
         for key, value in cla_stats:
             f.write(key + '\t' + str(value) + '\n')
+            count += value
+        print(count)
+        f.write(str(count))
+
 
 def is_chinese(char):
    if char >= '\u4e00' and char <= '\u9fa5':
@@ -45,7 +52,7 @@ if __name__ == '__main__':
 
 
     # stat('med_cla_eng/label2text.json',1,'med_cla_eng/stats_cscd_med_eng.txt',db_server)
-    stat(r'cla_agriculture/label2text.json',1,'cla_agriculture/stats_agri.txt',db_server)
+    stat(r'cla_123_r\cla_1_label2text_filter.json',1,'cla_123_r\stats_cscd_1_all_filter.txt',db_server)
 
 
     db_server.close()
