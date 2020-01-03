@@ -127,5 +127,15 @@ def ReadDb_SegmentSentence_Export2Txt(label2text):
 
 
 if __name__ == '__main__':
-    ReadDb_SegmentSentence_Export2Txt(r'cla_1_label2text_filter.json')
+    # ReadDb_SegmentSentence_Export2Txt(r'cla_1_label2text_filter.json')
+    with open(r'cla_1_label2text_filter.json', 'r', encoding='utf-8') as f:
+        cla_dict = json.load(f)
+    for label, text in cla_dict.items():
+        a = """python create_pretraining_data.py ^
+ --vocab_file models/chinese_L-12_H-768_A-12/vocab.txt ^
+ --output_file data/cscd_all/pre_training_{cla}_cscd_128.tfrecord ^
+ --input_file data/cscd_all/{cla}.txt ^
+ --max_seq_length 128""".format(cla=label)
+        print(a)
+
 
