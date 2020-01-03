@@ -5,11 +5,11 @@
 
 /public/software/deeplearning/anaconda3/bin/python3 run_classifier.py\
  --data_dir=data/data_wanfang_16000\
- --bert_config_file=models/chinese_L-12_H-768_A-12/bert_config.json\
+ --bert_config_file=/public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/bert_config.json\
  --task_name=cla\
- --vocab_file=models/chinese_L-12_H-768_A-12/vocab.txt\
- --output_dir=outputs/test_dcu_data_16000\
- --init_checkpoint=models/chinese_L-12_H-768_A-12/bert_model.ckpt\
+ --vocab_file=/public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/vocab.txt\
+ --output_dir=/public/home/zzx6320/lh/Projects/bert/outputs/test_dcu_data_16000\
+ --init_checkpoint=/public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/bert_model.ckpt\
  --max_seq_length=400\
  --do_train=True\
  --do_predict=True\
