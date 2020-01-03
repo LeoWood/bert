@@ -48,13 +48,25 @@ if __name__ == '__main__':
                7: 'R72 儿科学', 8: 'R73 肿瘤学', 9: 'R74 神经病学与精神病学', 10: 'R75 皮肤病学与性病学', 11: 'R76 耳鼻咽喉科学', 12: 'R77 眼科学',
                13: 'R78 口腔科学', 14: 'R8 特种医学', 15: 'R9 药学'}
 
-    new_dict = {}
-    for key,value in cla_2_r.items():
-        new_dict[str(key)] = value
+    cla_agri_label2text = {}
+    with open('cla_agriculture/cla_agriculture.txt', 'r', encoding='utf-8') as f:
+        for line in f.readlines():
+            line = line.strip()
+            if line:
+                cla_agri_label2text[line.split()[0]] = line.split()[1]
 
-    with open('id2label.json','w',encoding='utf-8') as f:
-        json.dump(new_dict,f)
+    with open('cla_agriculture/label2text.json', 'w', encoding='utf-8') as f:
+        json.dump(cla_agri_label2text, f)
     exit()
+
+
+    # new_dict = {}
+    # for key,value in cla_2_r.items():
+    #     new_dict[str(key)] = value
+    #
+    # with open('id2label.json','w',encoding='utf-8') as f:
+    #     json.dump(new_dict,f)
+    # exit()
 
     # cla_1_label2text = {}
     # with open('cla_1_label2text.json', 'w', encoding='utf-8') as f:
@@ -159,7 +171,7 @@ if __name__ == '__main__':
 
     cla_cscd_label2text = {}
 
-    with open('physics_cla/cla_cscd_phy_2.txt', 'r', encoding='utf-8') as f:
+    with open('physics_cla/cla_agriculture.txt', 'r', encoding='utf-8') as f:
         for line in f.readlines():
             line = line.strip()
             if line:

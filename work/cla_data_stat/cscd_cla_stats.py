@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
 
     # stat('med_cla_eng/label2text.json',1,'med_cla_eng/stats_cscd_med_eng.txt',db_server)
-    stat(r'cla_123_r/cla_1_label2text.json',1,'cla_123_r/stats_cscd_1.txt',db_server)
+    stat(r'cla_agriculture/label2text.json',1,'cla_agriculture/stats_agri.txt',db_server)
 
 
     db_server.close()

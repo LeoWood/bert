@@ -437,7 +437,7 @@ def create_data_med(cla_dict,db_server,path):
         df.to_csv(os.path.join(path, label + ' ' + text + '.csv'), encoding='utf_8_sig')
 
         df_train = df[:int(len(df)*0.9)]
-        df_test = df[int(len(df)*0.1):]
+        df_test = df[int(len(df)*0.9):]
 
         abstracts = []
         for j in range(len(df_train)):
@@ -471,6 +471,11 @@ def create_data_med(cla_dict,db_server,path):
     df_train = pd.read_csv(os.path.join(path, 'train_temp.tsv'), sep='\t', names=['label', 'Sentence'])
 
     print(len(df_train))
+
+    df_test = pd.read_csv(os.path.join(path, 'test.tsv'), sep='\t', names=['label', 'Sentence'])
+
+    print(len(df_test))
+
     df_train = df_train.sample(frac=1).reset_index(drop=True)
     df_train.to_csv(os.path.join(path, 'train.tsv'), sep='\t', header=False, index=False)
 
@@ -538,10 +543,10 @@ def insert_into_test(db_server,cla_dict):
 
 
 if __name__ == '__main__':
-    df_train = pd.read_csv('cscd_med/test.tsv', sep='\t', names=['label', 'Sentence'])
-
-    print(len(df_train))
-    exit()
+    # df_train = pd.read_csv('cla_agriculture/test.tsv', sep='\t', names=['label', 'Sentence'])
+    #
+    # print(len(df_train))
+    # exit()
 
     ## 读取数据库信息
     with open('db_info.json', 'r', encoding='utf-8') as f:
@@ -549,12 +554,12 @@ if __name__ == '__main__':
     db_info = db_info['cscd']
     db_server = pySql(ip=db_info['ip'], user=db_info['user'], pwd=db_info['pwd'], db=db_info['db'])
 
-    with open(r'med_cla_eng/label2text.json','r',encoding='utf-8') as f:
+    with open(r'cla_agriculture/label2text.json','r',encoding='utf-8') as f:
         cla_dict = json.load(f)
     # create_data(cla_dict, 1, db_server)
 
     # insert_into_test(db_server,cla_dict)
 
-    create_data_level_1(cla_dict,db_server,'cscd_med')
+    create_data_med(cla_dict,db_server,'cla_agriculture')
 
     db_server.close()
