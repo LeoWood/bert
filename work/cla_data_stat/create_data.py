@@ -542,6 +542,10 @@ def insert_into_test(db_server,cla_dict):
         print(label, ' Done.')
 
 
+
+
+
+
 if __name__ == '__main__':
     # df_train = pd.read_csv('cla_agriculture/test.tsv', sep='\t', names=['label', 'Sentence'])
     #
