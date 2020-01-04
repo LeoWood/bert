@@ -12,4 +12,5 @@
  --train_batch_size 64\
  --learning_rate 2e-5\
  --num_train_steps 1000000\
+ --save_checkpoints_steps 100000\
  --gpu 0
