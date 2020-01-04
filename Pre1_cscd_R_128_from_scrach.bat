@@ -5,7 +5,7 @@ python run_pretraining.py^
  --output_dir outputs/Pre1_cscd_R_128_from_scrach^
  --max_seq_length 128^
  --do_train True^
- --train_batch_size 32^
+ --train_batch_size 64^
  --learning_rate 2e-5^
  --num_train_steps 1000000^
  --gpu 0^
