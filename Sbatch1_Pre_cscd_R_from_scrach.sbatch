@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -p normal
+#SBATCH -p caspra
 #SBATCH -N 1
 #SBATCH -J pre_64
 #SBATCH -o Pre1_cscd_R_128_64_from_scrach.out
@@ -13,5 +13,5 @@
  --train_batch_size 64\
  --learning_rate 2e-5\
  --num_train_steps 1000000\
- --save_checkpoints_steps 100000\
+ --save_checkpoints_steps 10000\
  --gpu 0
