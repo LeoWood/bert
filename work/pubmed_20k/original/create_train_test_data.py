@@ -29,24 +29,24 @@ def get_data(file_from,file_to,class_dict):
 if __name__ == '__main__':
     class_dict = {'OBJECTIVE': 0, 'METHODS': 1, 'RESULTS': 2, 'CONCLUSIONS': 3, 'BACKGROUND': 4}
 
-    data_path = '../../data/data_refind/'
+    data_path = '../../data/data_refind'
     ## create train data
     train_path = data_path
     if not os.path.exists(train_path):
         os.mkdir(train_path)
 
-    get_data(data_path + 'new_train.txt', train_path + 'train_temp.tsv', class_dict)
+    get_data(data_path + '/new_train.txt', train_path + '/train_temp.tsv', class_dict)
 
     df_train = pd.read_csv(train_path + 'train_temp.tsv', sep='\t', names=['label', 'Sentence'])
     print(len(df_train))
     df_train = df_train.sample(frac=1).reset_index(drop=True)
-    df_train.to_csv(train_path + 'train.tsv', sep='\t', header=False, index=False)
+    df_train.to_csv(train_path + '/train.tsv', sep='\t', header=False, index=False)
 
     ## create test data
     test_path = data_path
     if not os.path.exists(test_path):
         os.mkdir(test_path)
-    get_data(data_path + 'test_refind.txt', test_path + 'test.tsv', class_dict)
+    get_data(data_path + '/test_refind.txt', test_path + '/test.tsv', class_dict)
 
 
 
