@@ -41,6 +41,7 @@ def get_data(file_from,file_to,class_dict,is_mask,is_sen):
 
 if __name__ == '__main__':
     class_dict = {'OBJECTIVE': 0, 'METHODS': 1, 'RESULTS': 2, 'CONCLUSIONS': 3, 'BACKGROUND': 4}
+    class_dict = {'0':'OBJECTIVE', '1':'METHODS','2':'RESULTS', '3':'CONCLUSIONS', '4':'BACKGROUND'}
 
     data_path = '/home/leo/lh/Projects/bert/data/data_refind/'
     ## create train data
