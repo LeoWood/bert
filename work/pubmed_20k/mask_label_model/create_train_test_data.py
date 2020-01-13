@@ -7,6 +7,7 @@ import pandas as pd
 import pymssql
 import random
 import numpy as np
+import os
 
 
 def stat_seq(file):
@@ -83,8 +84,10 @@ if __name__ == '__main__':
 
     #
     ## create train data
-    data_path = '../../data/data_refind/'
+    data_path = '/home/leo/lh/Projects/bert/data_refind/'
     train_path = data_path + 'data_mask_label/seq_length_nums'
+    if not os.path.exists(train_path):
+        os.mkdir(train_path)
 
     get_data(data_path + 'new_train.txt',train_path + 'train_temp.tsv',class_dict)
 

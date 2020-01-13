@@ -5,6 +5,7 @@
 
 
 import pandas as pd
+import os
 
 def get_data(file_from,file_to,class_dict,is_mask,is_sen):
     with open(file_to,'w',encoding='utf-8') as fw:
@@ -41,9 +42,11 @@ def get_data(file_from,file_to,class_dict,is_mask,is_sen):
 if __name__ == '__main__':
     class_dict = {'OBJECTIVE': 0, 'METHODS': 1, 'RESULTS': 2, 'CONCLUSIONS': 3, 'BACKGROUND': 4}
 
-    data_path = '../../data/data_refind/'
+    data_path = '/home/leo/lh/Projects/bert/data_refind/'
     ## create train data
     train_path = data_path + 'data_msm/aaa_seq_length/'
+    if not os.path.exists(train_path):
+        os.mkdir(train_path)
     get_data(data_path + 'new_train.txt', train_path + 'train_temp.tsv', class_dict,1,1)
 
     df_train = pd.read_csv(train_path + 'train_temp.tsv', sep='\t', names=['label', 'Sentence'])
@@ -53,9 +56,13 @@ if __name__ == '__main__':
 
     ## create test data
     test_path = data_path + 'data_msm/aaa_seq_length/test_mask/'
+    if not os.path.exists(test_path):
+        os.mkdir(test_path)
     get_data(data_path + 'test_refind.txt', test_path + 'test.tsv', class_dict, 1, 0)
 
     test_path = data_path + 'data_msm/aaa_seq_length/test_sen/'
+    if not os.path.exists(test_path):
+        os.mkdir(test_path)
     get_data(data_path + 'test_refind.txt', test_path + 'test.tsv', class_dict, 0, 1)
 
 
