@@ -42,7 +42,7 @@ def get_data(file_from,file_to,class_dict,is_mask,is_sen):
 if __name__ == '__main__':
     class_dict = {'OBJECTIVE': 0, 'METHODS': 1, 'RESULTS': 2, 'CONCLUSIONS': 3, 'BACKGROUND': 4}
 
-    data_path = '/home/leo/lh/Projects/bert/data_refind/'
+    data_path = '/home/leo/lh/Projects/bert/data/data_refind/'
     ## create train data
     train_path = data_path + 'data_msm/aaa_seq_length/'
     if not os.path.exists(train_path):

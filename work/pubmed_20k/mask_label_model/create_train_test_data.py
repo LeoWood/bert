@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     #
     ## create train data
-    data_path = '/home/leo/lh/Projects/bert/data_refind/'
+    data_path = '/home/leo/lh/Projects/bert/data/data_refind/'
     train_path = data_path + 'data_mask_label/seq_length_nums'
     if not os.path.exists(train_path):
         os.mkdir(train_path)
