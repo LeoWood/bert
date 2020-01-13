@@ -5,7 +5,7 @@ python run_classifier.py\
  --task_name cla\
  --vocab_file models/uncased_L-12_H-768_A-12/vocab.txt\
  --output_dir outputs/Move_mask_label_refind\
- --init_checkpoint models/cuncased_L-12_H-768_A-12/bert_model.ckpt\
+ --init_checkpoint models/uncased_L-12_H-768_A-12/bert_model.ckpt\
  --max_seq_length 313\
  --do_train True\
  --do_eval False\
