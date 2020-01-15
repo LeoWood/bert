@@ -7,8 +7,7 @@ python run_classifier.py^
  --init_checkpoint models/cuncased_L-12_H-768_A-12/bert_model.ckpt^
  --max_seq_length 313^
  --do_train True^
- --do_eval False^
- --do_predict False^
+ --do_predict True^
  --train_batch_size 10^
  --learning_rate 5e-5^
  --num_train_epochs 3.0^
