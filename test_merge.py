@@ -46,3 +46,5 @@ if __name__ == '__main__':
                                                 y_pred=predictions, labels=[4, 3, 1, 0, 2])
     print(report)
     print(confution_matrix)
+    with open(os.path.join(FLAGS.output_dir, "eval_report.txt"), 'w', encoding='utf-8') as f:
+        f.write(report)
