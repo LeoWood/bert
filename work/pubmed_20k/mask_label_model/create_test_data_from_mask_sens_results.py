@@ -42,7 +42,7 @@ if __name__ == '__main__':
     # exit()
     cla = {'0': 'Purpose', '1': 'Methods', '2': 'Results', '3': 'Conclusions', '4': 'Background'}
     i = 0
-    with open('/home/leo/lh/Projects/bert/data/data_refind/data_mask_label/seq_length_nums/test.tsv', 'w', encoding='utf-8') as fw:
+    with open('/home/leo/lh/Projects/bert/data/data_refind/data_mask_label/3_lebels/test.tsv', 'w', encoding='utf-8') as fw:
         for num in nums:
             print(i,i+num)
             # 读取当前摘要预测得分
@@ -80,7 +80,8 @@ if __name__ == '__main__':
                 # new_sens[rs[1]] = '[' + ls[1] + ']. '
                 # new_sens[rs[2]] = '[' + ls[2] + ']. '个全是[...].的数组
 
-                for x in range(round(num * 3 / 11)):
+                # for x in range(round(num * 3 / 11)):
+                for x in range(3):
                     new_sens[rs[x]] = '[' + ls[x] + ']. '
 
 
