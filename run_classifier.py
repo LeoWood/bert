@@ -53,6 +53,10 @@ flags.DEFINE_string(
     "output_dir", None,
     "The output directory where the model checkpoints will be written.")
 
+flags.DEFINE_string(
+    "test_results_pre", '',
+    "rename test_results.")
+
 ## Other parameters
 
 flags.DEFINE_string(
@@ -1001,7 +1005,7 @@ def main(_):
                 steps_and_files.append([global_step, cur_filename])
         steps_and_files = sorted(steps_and_files, key=lambda x: x[0])
 
-        output_eval_file = os.path.join(FLAGS.output_dir, "eval_results.txt")
+        output_eval_file = os.path.join(FLAGS.output_dir,FLAGS.test_results_pre + "eval_results.txt")
         print("output_eval_file:", output_eval_file)
         tf.logging.info("output_eval_file:" + output_eval_file)
         with tf.gfile.GFile(output_eval_file, "w") as writer:
@@ -1062,7 +1066,7 @@ def main(_):
         predictions = []
         result = estimator.predict(input_fn=predict_input_fn)
 
-        output_predict_file = os.path.join(FLAGS.output_dir, "test_results.tsv")
+        output_predict_file = os.path.join(FLAGS.output_dir, FLAGS.test_results_pre + "test_results.tsv")
         with tf.gfile.GFile(output_predict_file, "w") as writer:
             num_written_lines = 0
             tf.logging.info("***** Predict results *****")
@@ -1098,7 +1102,7 @@ def main(_):
                                                     y_pred=predictions, labels=cla_labels)
         print(report)
         print(confution_matrix)
-        with open(os.path.join(FLAGS.output_dir, "eval_report.txt"), 'w', encoding='utf-8') as f:
+        with open(os.path.join(FLAGS.output_dir,FLAGS.test_results_pre + "eval_report.txt"), 'w', encoding='utf-8') as f:
             f.write(report)
         # df = classification_report_csv(report)
         # df.to_csv(os.path.join(FLAGS.output_dir, "eval_report.csv"),index=False)
