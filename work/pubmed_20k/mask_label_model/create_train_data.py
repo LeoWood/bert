@@ -110,7 +110,7 @@ if __name__ == '__main__':
 
     ## create train data
     data_path = '/home/leo/lh/Projects/bert/data/data_refind/'
-    train_path = data_path + 'data_mask_label/3_labels'
+    train_path = data_path + 'data_mask_label/3_labels/'
     if not os.path.exists(train_path):
         os.mkdir(train_path)
 
