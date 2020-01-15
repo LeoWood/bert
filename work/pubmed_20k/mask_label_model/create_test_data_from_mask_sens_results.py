@@ -58,7 +58,9 @@ if __name__ == '__main__':
             sor_max_list = sorted(max_list, reverse=True)
             rs = []
             ls = []
-            for x in range(round(num*3/11)):
+            ### 控制label数量
+            # for x in range(round(num*3/11)):
+            for x in range(3):
                 i_i = max_list.index(sor_max_list[x])
                 rs.append(i_i)
                 ls.append(label_dict[i_i])
@@ -76,10 +78,8 @@ if __name__ == '__main__':
             for sen in sentences:
                 new_sens = {}
                 for j in range(num):
-                    new_sens[j] = '[...]. '  # 初始化一                # new_sens[rs[0]] = '[' + ls[0] + ']. '  # 选出来的两个位置用label替代
-                # new_sens[rs[1]] = '[' + ls[1] + ']. '
-                # new_sens[rs[2]] = '[' + ls[2] + ']. '个全是[...].的数组
-
+                    new_sens[j] = '[...]. '  # 初始化一
+                ### 控制label数量
                 # for x in range(round(num * 3 / 11)):
                 for x in range(3):
                     new_sens[rs[x]] = '[' + ls[x] + ']. '
