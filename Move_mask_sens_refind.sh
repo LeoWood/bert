@@ -51,6 +51,3 @@ python test_merge.py\
  --output_dir outputs/Move_mask_sens_refind
 
 
-
-
-
