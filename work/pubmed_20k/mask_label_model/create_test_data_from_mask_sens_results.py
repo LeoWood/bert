@@ -42,7 +42,7 @@ if __name__ == '__main__':
     # exit()
     cla = {'0': 'Purpose', '1': 'Methods', '2': 'Results', '3': 'Conclusions', '4': 'Background'}
     i = 0
-    with open('/home/leo/lh/Projects/bert/data/data_refind/data_mask_label/3_lebels/test.tsv', 'w', encoding='utf-8') as fw:
+    with open('/home/leo/lh/Projects/bert/data/data_refind/data_mask_label/3_labels/test.tsv', 'w', encoding='utf-8') as fw:
         for num in nums:
             print(i,i+num)
             # 读取当前摘要预测得分
