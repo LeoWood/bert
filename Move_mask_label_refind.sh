@@ -13,7 +13,7 @@ python run_classifier.py\
  --train_batch_size 10\
  --learning_rate 5e-5\
  --num_train_epochs 3.0\
- --gpu 1\
+ --gpu 0\
  --cla_nums 5
 
 
