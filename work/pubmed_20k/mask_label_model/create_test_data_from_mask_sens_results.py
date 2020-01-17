@@ -42,7 +42,7 @@ if __name__ == '__main__':
     # exit()
     cla = {'0': 'Purpose', '1': 'Methods', '2': 'Results', '3': 'Conclusions', '4': 'Background'}
     i = 0
-    with open('/home/leo/lh/Projects/bert/data/data_refind/data_mask_label/2_labels/test.tsv', 'w', encoding='utf-8') as fw:
+    with open('/home/leo/lh/Projects/bert/data/data_refind/data_mask_label/1_labels/test.tsv', 'w', encoding='utf-8') as fw:
         for num in nums:
             print(i,i+num)
             # 读取当前摘要预测得分
@@ -60,7 +60,7 @@ if __name__ == '__main__':
             ls = []
             ### 控制label数量
             # for x in range(round(num*3/11)):
-            for x in range(2):
+            for x in range(1):
                 i_i = max_list.index(sor_max_list[x])
                 rs.append(i_i)
                 ls.append(label_dict[i_i])
@@ -81,7 +81,7 @@ if __name__ == '__main__':
                     new_sens[j] = '[...]. '  # 初始化一
                 ### 控制label数量
                 # for x in range(round(num * 3 / 11)):
-                for x in range(2):
+                for x in range(1):
                     new_sens[rs[x]] = '[' + ls[x] + ']. '
 
 

@@ -179,11 +179,11 @@ if __name__ == '__main__':
 
     ## create train data
     data_path = '/home/leo/lh/Projects/bert/data/data_refind/'
-    train_path = data_path + 'data_mask_label/2_labels/'
+    train_path = data_path + 'data_mask_label/1_labels/'
     if not os.path.exists(train_path):
         os.mkdir(train_path)
 
-    get_data_num_2(data_path + 'new_train.txt',train_path + 'train_temp.tsv',class_dict)
+    get_data_num_1(data_path + 'new_train.txt',train_path + 'train_temp.tsv',class_dict)
 
     df_train = pd.read_csv(train_path + 'train_temp.tsv',sep='\t',names=['label','Sentence'])
     # print(max([len(sen.split(' ')) for sen in df_train['Sentence']]))
