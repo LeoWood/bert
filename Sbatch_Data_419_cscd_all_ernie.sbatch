@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -p normal
 #SBATCH -N 1
-#SBATCH -J create_pre_data_cscd_all_wwm(s-)
-#SBATCH -o create_pre_data_cscd_all_wwm(s-).out
+#SBATCH -J create_pre_data_cscd_all_wwm_s-
+#SBATCH -o create_pre_data_cscd_all_wwm_s-.out
 
 python create_ernie_pretraining_data.py \
  --vocab_file /public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/chinese_L-12_H-768_A-12/vocab.txt \
