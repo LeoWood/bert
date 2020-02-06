@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p normal
-#SBATCH -N 1
+#SBATCH -N 2
 #SBATCH -J create_pre_data_cscd_all_wwm_r
 #SBATCH -o create_pre_data_cscd_all_wwm_r.out
 
