@@ -1,5 +1,8 @@
-#!/usr/bin/env bash
-#cscd医学领域数据, max_seq 128, wwm
+#!/bin/bash
+#SBATCH -p normal
+#SBATCH -N 1
+#SBATCH -J create_pre_data_cscd_all_wwm
+#SBATCH -o create_pre_data_cscd_all_wwm.out
 
 python create_ernie_pretraining_data.py \
  --vocab_file /public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/vocab.txt \
