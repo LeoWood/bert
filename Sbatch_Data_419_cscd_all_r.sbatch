@@ -4,7 +4,7 @@
 #SBATCH --exclusive
 #SBATCH --mem=128G
 #SBATCH -J create_pre_data_cscd_all
-#SBATCH -o create_pre_data_cscd_all.out
+#SBATCH -o create_pre_data_cscd_all_r.out
 
 
 python create_pretraining_data.py \
