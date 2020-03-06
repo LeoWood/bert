@@ -8,7 +8,7 @@ python run_classifier.py^
  --max_seq_length=512^
  --do_train=True^
  --do_predict=True^
- --train_batch_size=8^
+ --train_batch_size=5^
  --learning_rate=2e-5^
  --num_train_epochs=3.0^
  --gpu=1^
