@@ -1,6 +1,7 @@
 #!/bin/bash
 #SBATCH -p normal
 #SBATCH -N 1
+#SBATCH --exclusive
 #SBATCH --mem=100G
 #SBATCH -J create_pre_data_cscd_all
 #SBATCH -o create_pre_data_cscd_all_r.out
