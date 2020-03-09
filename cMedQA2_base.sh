@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 python run_classifier.py\
- --data_dir=data/data_CSL\
+ --data_dir=data/data_cMedQA2\
  --bert_config_file=models/chinese_L-12_H-768_A-12/bert_config.json\
  --task_name=pair\
  --vocab_file=models/chinese_L-12_H-768_A-12/vocab.txt\
- --output_dir=outputs/CSL_base\
+ --output_dir=outputs/cMedQA2_base\
  --init_checkpoint=models/chinese_L-12_H-768_A-12/bert_model.ckpt\
  --max_seq_length=512\
  --do_train=True\
  --do_predict=True\
- --train_batch_size=8\
+ --train_batch_size=5\
  --learning_rate=2e-5\
  --num_train_epochs=3.0\
  --gpu=0\
