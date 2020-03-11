@@ -50,6 +50,7 @@ def delete_tag(eachSentence):
     return eachSentence
 
 def Seg_Sents_Cn(text):
+    text = text.replace('．','.')
     seg_sents = []
     if '。' in text:
         for sen in list(zng(text)):
@@ -59,6 +60,7 @@ def Seg_Sents_Cn(text):
         previous_index = 0
         # find all occurrences of “.” in this sentence
         indexs_of_dots = [index for index, x in enumerate(text) if x == '.']
+        # print(indexs_of_dots)
 
         for index in indexs_of_dots:
             if index == len(text) - 1:  ## 位于最后
