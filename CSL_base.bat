@@ -3,8 +3,8 @@ python run_classifier.py^
  --bert_config_file=models/chinese_L-12_H-768_A-12/bert_config.json^
  --task_name=pair^
  --vocab_file=models/chinese_L-12_H-768_A-12/vocab.txt^
- --output_dir=outputs/CSL_base^
- --init_checkpoint=models/chinese_L-12_H-768_A-12/bert_model.ckpt^
+ --output_dir=outputs/CSL_pre3_old^
+ --init_checkpoint=/home/leo/lh/Projects/bert/models/pre3_old^
  --max_seq_length=512^
  --do_train=True^
  --do_predict=True^
