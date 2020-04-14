@@ -981,7 +981,7 @@ def main(_):
         train_file = os.path.join(FLAGS.output_dir, "train.tf_record")
         train_file_exists = os.path.exists(train_file)
         print("###train_file_exists:", train_file_exists, " ;train_file:", train_file)
-        if not train_file_exists:  # if tf_record file not exist, convert from raw text file. # TODO
+        if not train_file_exists:  # if tf_record file not exist, convert from raw text file.
             file_based_convert_examples_to_features(
                 train_examples, label_list, FLAGS.max_seq_length, tokenizer, train_file)
         tf.logging.info("***** Running training *****")
