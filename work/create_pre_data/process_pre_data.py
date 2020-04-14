@@ -7,8 +7,8 @@ from pySql import pySql
 from Seg_Sents_Cn import Seg_Sents_Cn
 import json
 
-# 数据库连接
-## 读取数据库信息
+数据库连接
+# 读取数据库信息
 with open('db_info.json', 'r', encoding='utf-8') as f:
     db_info = json.load(f)
 db_info = db_info['cscd']
@@ -36,11 +36,35 @@ def ReadDb_SegmentSentence_Export2Txt(label2text):
                 if count % 100 == 0:
                     print(count,' Done.')
         print(label , ' Done')
-    print('句子总数:', count    )
+    print('句子总数:', count)
+
+def getsomememory(label2text):
+    with open(label2text, 'r', encoding='utf-8') as f:
+        cla_dict = json.load(f)
+    count_1 = 0
+    count_2 = 0
+    for label, text in cla_dict.items():
+        with open(label+'.txt','r',encoding='utf-8') as f:
+            with open('../pre_data_raw/' + label+'.txt','w',encoding='utf-8') as fw:
+                for line in f.readlines():
+                    count_1 += 1
+                    line = line.strip()
+                    SentencesList = Seg_Sents_Cn(line)
+                    for sen in SentencesList:
+                        fw.write(sen + '\n')
+                        count_2 += 1
+                    fw.write('\n')
+                    if count_1 % 1000 == 0:
+                        print(count_1, ' Done.')
+        print(label, ' Done')
+    print(count_1)
+    print(count_2)
+
 
 
 if __name__ == '__main__':
-    ReadDb_SegmentSentence_Export2Txt(r'cla_1_label2text_filter.json')
+    getsomememory(r'cla_1_label2text_filter.json')
+    # ReadDb_SegmentSentence_Export2Txt(r'cla_1_label2text_filter.json')
  #    with open(r'cla_1_label2text_filter.json', 'r', encoding='utf-8') as f:
  #        cla_dict = json.load(f)
  #    for label, text in cla_dict.items():

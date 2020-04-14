@@ -1,5 +1,11 @@
 # Initially taken from Github's Python gitignore file
 
+# data
+*.csv
+*.json
+*.txt
+*.tsv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
