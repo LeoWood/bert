@@ -11,6 +11,6 @@ python run_classifier.py\
  --do_predict=True\
  --train_batch_size=8\
  --learning_rate=2e-5\
- --num_train_epochs=3.0\
+ --num_train_epochs=2.0\
  --gpu=0\
- --cla_nums=43
+ --cla_nums=40

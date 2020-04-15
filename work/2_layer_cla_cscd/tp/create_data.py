@@ -21,9 +21,21 @@ def create_data(cla_dict,db_server,path):
     i = 0
     for label,text in cla_dict.items():
         if '*' in label:
-            label = label.split('*')[0]
+            label_self = label.split('*')[0]
+            label_not = label.split('*')[1].split(',')
+            sql = "SELECT id,title,abstract,en_abstract FROM article_info where classification like '" + label_self + "%' "
+            for l in label_not:
+                sql += "and classification not like '" + l + "%' "
+            sql += "and isUniCla=1 and language='chi'"
+            print(sql)
+            label = label_self
+        else:
+            sql = "SELECT id,title,abstract,en_abstract FROM article_info where classification like '{cla_str}%' and isUniCla=1 and language='chi'".format(cla_str=label)
 
-        sql = "SELECT id,title,abstract,en_abstract FROM article_info where classification like '{cla_str}%' and isUniCla=1 and language='chi' order by id".format(cla_str=label)
+        # if '*' in label:
+        #     label = label.split('*')[0]
+        #
+        # sql = "SELECT id,title,abstract,en_abstract FROM article_info where classification like '{cla_str}%' and isUniCla=1 and language='chi' order by id".format(cla_str=label)
         df = db_server.read_sql(sql)
         df.to_csv(os.path.join('data_csv', label + ' ' + text + '.csv'), encoding='utf_8_sig')
 
