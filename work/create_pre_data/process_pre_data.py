@@ -7,7 +7,7 @@ from pySql import pySql
 from Seg_Sents_Cn import Seg_Sents_Cn
 import json
 
-数据库连接
+#数据库连接
 # 读取数据库信息
 with open('db_info.json', 'r', encoding='utf-8') as f:
     db_info = json.load(f)
@@ -29,7 +29,7 @@ def ReadDb_SegmentSentence_Export2Txt(label2text):
                 abstract = df.iloc[i]['abstract']
                 SentencesList = Seg_Sents_Cn(abstract)
                 for sen in SentencesList:
-                    f.write(sen)
+                    f.write(sen + '\n')
                 f.write('\n')
                 count += 1
 
@@ -63,7 +63,7 @@ def getsomememory(label2text):
 
 
 if __name__ == '__main__':
-    getsomememory(r'cla_1_label2text_filter.json')
+    ReadDb_SegmentSentence_Export2Txt(r'R.json')
     # ReadDb_SegmentSentence_Export2Txt(r'cla_1_label2text_filter.json')
  #    with open(r'cla_1_label2text_filter.json', 'r', encoding='utf-8') as f:
  #        cla_dict = json.load(f)

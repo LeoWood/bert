@@ -60,7 +60,6 @@ def Seg_Sents_Cn(text):
         previous_index = 0
         # find all occurrences of “.” in this sentence
         indexs_of_dots = [index for index, x in enumerate(text) if x == '.']
-        # print(indexs_of_dots)
 
         # 先去掉末尾点号
         for index in indexs_of_dots:
