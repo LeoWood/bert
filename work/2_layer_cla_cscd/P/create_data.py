@@ -37,7 +37,7 @@ def create_data(cla_dict,db_server,path):
         #
         # sql = "SELECT id,title,abstract,en_abstract FROM article_info where classification like '{cla_str}%' and isUniCla=1 and language='chi' order by id".format(cla_str=label)
         df = db_server.read_sql(sql)
-        df.to_csv(os.path.join('data_csv', label + ' ' + text + '.csv'), encoding='utf_8_sig')
+        df.to_csv(os.path.join('data_csv_temp', label + ' ' + text + '.csv'), encoding='utf_8_sig')
 
         df_train = df[:int(len(df)*0.9)]
         df_test = df[int(len(df)*0.9):]
@@ -76,6 +76,7 @@ def create_data(cla_dict,db_server,path):
     print(len(df_train))
 
     df_test = pd.read_csv(os.path.join(path, 'test.tsv'), sep='\t', names=['label', 'Sentence'])
+    df_test[:100].to_csv(os.path.join(path, 'data_example.csv'),index=False)
 
     print(len(df_test))
 
@@ -98,12 +99,12 @@ if __name__ == '__main__':
     db_info = db_info['cscd']
     db_server = pySql(ip=db_info['ip'], user=db_info['user'], pwd=db_info['pwd'], db=db_info['db'])
 
-    with open(r'modified_label2text.json','r',encoding='utf-8') as f:
+    with open(r'temp_label2text.json','r',encoding='utf-8') as f:
         cla_dict = json.load(f)
     # create_data(cla_dict, 1, db_server)
 
     # insert_into_test(db_server,cla_dict)
 
-    create_data(cla_dict,db_server,'data_bert')
+    create_data(cla_dict,db_server,'data_bert_temp')
 
     db_server.close()
