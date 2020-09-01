@@ -1,5 +1,5 @@
 python run_classifier.py\
- --data_dir E:\LiuHuan\Projects\bert\work\data\xiandao\shanghai\
+ --data_dir data/xiandao/shanghai\
  --bert_config_file models/uncased_L-12_H-768_A-12/bert_config.json\
  --task_name cla\
  --vocab_file models/uncased_L-12_H-768_A-12/vocab.txt\
