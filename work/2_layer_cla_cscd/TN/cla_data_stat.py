@@ -57,7 +57,7 @@ if __name__ == '__main__':
     db_info = db_info['cscd']
     db_server = pySql(ip=db_info['ip'], user=db_info['user'], pwd = db_info['pwd'], db = db_info['db'])
 
-    stat_str = "temp"
+    stat_str = "modified"
     ## 构架映射表
     cla_label2text = {}
 
