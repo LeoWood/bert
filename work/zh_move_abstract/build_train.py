@@ -94,9 +94,10 @@ if __name__ == '__main__':
     # conn = pymssql.connect(server="159.226.125.115", user="sa", password="whlibwlb00)$$", database="SemanticRT")
     # sql = "SELECT[loc],[Truelabel],[ArticleID],[Sentence]FROM [SemanticRT].[dbo].[Sentences_NewLabel] where ArticleID<=10000 and ArticleID>0"
     # df = pd.read_sql(sql, conn)
-    # df_train = pd.read_csv('train/train.tsv', sep='\t', names=['label', 'Sentence'])
+    df_train = pd.read_csv('train.tsv', sep='\t', names=['label', 'Sentence'])
+    print(len(df_train))
     # print(max([len(sen) for sen in df_train['Sentence']]))
-    # exit()
+    exit()
 
     class_dict = {'目的':0, '方法':1, '结果':2, '结论':3}
 
