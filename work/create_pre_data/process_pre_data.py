@@ -59,6 +59,26 @@ def write_to_single_file(label2text):
         print(label, ' Done')
     print('句子总数:', count)
 
+def write_to_single_file_absts(label2text):
+    with open(label2text, 'r', encoding='utf-8') as f:
+        cla_dict = json.load(f)
+    count = 0
+    with open('R_abs_mlm.txt', 'w', encoding='utf-8') as f:
+        for label, text in cla_dict.items():
+            sql = "SELECT id,abstract FROM article_info where classification like '{cla_str}%' and language='chi' order by id".format(
+                cla_str=label)
+            df = db_server.read_sql(sql)
+            for i in tqdm(range(len(df))):
+                abstract = df.iloc[i]['abstract']
+                # SentencesList = Seg_Sents_Cn(abstract)
+                # for sen in SentencesList:
+                f.write(abstract + '\n')
+                count += 1
+                # f.write('\n')
+
+            print(label, ' Done')
+    print('文章总数:', count)
+
 def getsomememory(label2text):
     with open(label2text, 'r', encoding='utf-8') as f:
         cla_dict = json.load(f)
@@ -84,7 +104,7 @@ def getsomememory(label2text):
 
 
 if __name__ == '__main__':
-    write_to_single_file(r'cla_1_label2text_filter.json')
+    write_to_single_file_absts(r'r_label2text_filter.json')
     # ReadDb_SegmentSentence_Export2Txt(r'cla_1_label2text_filter.json')
  #    with open(r'cla_1_label2text_filter.json', 'r', encoding='utf-8') as f:
  #        cla_dict = json.load(f)

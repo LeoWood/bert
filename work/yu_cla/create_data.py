@@ -32,9 +32,11 @@ if __name__ == '__main__':
         i += 1
 
     with open('id2label.json', 'w', encoding='utf-8') as f:
-        json.dump(lable2id, f)
-    with open('label2id.json', 'w', encoding='utf-8') as f:
         json.dump(id2label, f)
+    with open('label2id.json', 'w', encoding='utf-8') as f:
+        json.dump(lable2id, f)
+    
+    exit()
 
     train_data = df.sample(frac=0.9, random_state=123)
 

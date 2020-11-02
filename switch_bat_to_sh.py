@@ -20,3 +20,4 @@ def switch(bat_f,sh_f):
 
 if __name__ == '__main__':
     switch('Cla_yu.bat','Cla_yu.sh')
+
