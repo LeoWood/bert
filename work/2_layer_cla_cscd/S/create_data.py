@@ -87,10 +87,10 @@ def create_data(cla_dict,db_server,path):
 
 
 if __name__ == '__main__':
-    # df_train = pd.read_csv('cla_agriculture/test.tsv', sep='\t', names=['label', 'Sentence'])
-    #
-    # print(len(df_train))
-    # exit()
+    df_train = pd.read_csv('data_bert/train.tsv', sep='\t', names=['label', 'Sentence'])
+
+    print(len(df_train))
+    exit()
 
     ## 读取数据库信息
     with open('db_info.json', 'r', encoding='utf-8') as f:

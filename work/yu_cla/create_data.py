@@ -40,11 +40,17 @@ if __name__ == '__main__':
 
     test_data = df[~df.index.isin(train_data.index)]
 
-    print(set(test_data["分类"].tolist()))
+    # print(set(test_data["分类"].tolist()))
 
     with open("train.tsv", "w", encoding="utf-8") as f:
         for i in range(len(train_data)):
+            # print(train_data.iloc[i])
+            # print(lable2id[train_data.iloc[i]["分类"]])
+            # print(train_data.iloc[i]["dc:description"])
+            # exit()
             f.write(str(lable2id[train_data.iloc[i]["分类"]]) + "\t" + train_data.iloc[i]["dc:description"] + "\n")
+
+
     with open("test.tsv", "w", encoding="utf-8") as f:
         for i in range(len(test_data)):
             f.write(str(lable2id[test_data.iloc[i]["分类"]]) + "\t" + test_data.iloc[i]["dc:description"] + "\n")
