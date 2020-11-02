@@ -31,20 +31,19 @@ if __name__ == '__main__':
         id2label[i] = label
         i += 1
 
-    with open('id2label.json', 'w', encoding='utf-8') as f:
+    with open('data_20_percent_test/id2label.json', 'w', encoding='utf-8') as f:
         json.dump(id2label, f)
-    with open('label2id.json', 'w', encoding='utf-8') as f:
+    with open('data_20_percent_test/label2id.json', 'w', encoding='utf-8') as f:
         json.dump(lable2id, f)
-    
-    exit()
 
-    train_data = df.sample(frac=0.9, random_state=123)
+
+    train_data = df.sample(frac=0.8, random_state=123)
 
     test_data = df[~df.index.isin(train_data.index)]
 
     # print(set(test_data["分类"].tolist()))
 
-    with open("train.tsv", "w", encoding="utf-8") as f:
+    with open("data_20_percent_test/train.tsv", "w", encoding="utf-8") as f:
         for i in range(len(train_data)):
             # print(train_data.iloc[i])
             # print(lable2id[train_data.iloc[i]["分类"]])
@@ -53,10 +52,10 @@ if __name__ == '__main__':
             f.write(str(lable2id[train_data.iloc[i]["分类"]]) + "\t" + train_data.iloc[i]["dc:description"] + "\n")
 
 
-    with open("test.tsv", "w", encoding="utf-8") as f:
+    with open("data_20_percent_test/test.tsv", "w", encoding="utf-8") as f:
         for i in range(len(test_data)):
             f.write(str(lable2id[test_data.iloc[i]["分类"]]) + "\t" + test_data.iloc[i]["dc:description"] + "\n")
-    with open("dev.tsv", "w", encoding="utf-8") as f:
+    with open("data_20_percent_test/dev.tsv", "w", encoding="utf-8") as f:
         for i in range(len(test_data)):
             f.write(str(lable2id[test_data.iloc[i]["分类"]]) + "\t" + test_data.iloc[i]["dc:description"] + "\n")
     print(df.head())
