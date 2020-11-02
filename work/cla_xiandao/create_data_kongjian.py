@@ -51,6 +51,8 @@ if __name__ == '__main__':
     #     data.loc[i,"文献数据分类"] = num2id[data.iloc[i]["文献数据分类"]]
     # data.to_excel(r"D:\UCAS\Phd\Projects\201804监测平台\先导专项-分类\数据入库\data_kongjian.xlsx",sheet_name="文献数据", index=False)
 
+    # exit()
+
 
     data = data[['文献数据分类','文献摘要']]
     data = data.dropna(axis=0,how='any')
