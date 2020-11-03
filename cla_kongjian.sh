@@ -1,4 +1,4 @@
-python run_classifier.py\
+ python run_classifier.py\
  --data_dir data/xiandao/kongjian\
  --bert_config_file models/uncased_L-12_H-768_A-12/bert_config.json\
  --task_name cla\
@@ -13,6 +13,6 @@ python run_classifier.py\
  --learning_rate 2e-5\
  --num_train_epochs 3.0\
  --gpu 0\
- --cla_nums 31
-
+ --cla_nums 30
+ 
 

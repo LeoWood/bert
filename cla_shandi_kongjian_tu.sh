@@ -30,7 +30,7 @@ python run_classifier.py\
  --learning_rate 2e-5\
  --num_train_epochs 3.0\
  --gpu 0\
- --cla_nums 31
+ --cla_nums 30
 
 python run_classifier.py\
  --data_dir data/xiandao/tu\
